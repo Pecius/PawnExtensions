@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using PawnExtensions.Utils;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -47,9 +48,7 @@ namespace PawnExtensions
             {
                 IsLoadedGame = true;
 
-                string steamSuffix = ModMetaData.SteamModPostfix;
-                saveModIDsHash = ScribeMetaHeaderUtility.loadedModIdsList.Select(s => s.EndsWith(steamSuffix) ? s.Substring(0, s.Length - steamSuffix.Length) : s)
-                    .Where(m => ModsConfig.IsActive(m)).ToHashSet();
+                saveModIDsHash = ScribeMetaHeaderUtility.loadedModIdsList.Select(s => s.StripModID()).Where(m => ModUtil.IsActive(m)).ToHashSet();
             }
 
             if (Scribe.mode == LoadSaveMode.Saving)
@@ -106,7 +105,7 @@ namespace PawnExtensions
 
         public static void PrepareForSaving()
         {
-            compatibilityEntries.RemoveAll(d => !ModsConfig.IsActive(d.ModID));
+            compatibilityEntries.RemoveAll(d => !ModUtil.IsActive(d.ModID));
 
             foreach (var entry in compatibilityEntries)
                 entry.CompatsInstalled.RemoveAll(e => !defDatabase.Any(t => t.defName == e));
@@ -150,6 +149,7 @@ namespace PawnExtensions
             this.modID = modID;
             this.compatsInstalled = new List<string>();
         }
+
         public void ExposeData()
         {
             Scribe_Values.Look(ref modID, "modID");

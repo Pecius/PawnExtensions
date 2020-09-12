@@ -68,6 +68,7 @@
     <Compile Include="PawnExtensionsMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SapientCalls.cs" />
+    <Compile Include="Utils\ModUtil.cs" />
     <Compile Include="VanillaFixes.cs" />
   </ItemGroup>
   <ItemGroup />

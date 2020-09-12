@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PawnExtensions.Utils;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using Verse;
@@ -55,7 +56,7 @@ namespace PawnExtensions
 
         public override void PostLoad()
         {
-            if (modID == null || !ModsConfig.IsActive(modID))
+            if (modID == null || !ModUtil.IsActive(ModID))
             {
                 Log.Error($"modID '{modID.ToStringSafe()}' isn't valid, {defName} won't be registered!");
                 return;

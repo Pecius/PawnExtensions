@@ -23,6 +23,23 @@ namespace PawnExtensions
             }
         }
 
+        [HarmonyPatch(typeof(MeditationUtility))]
+        [HarmonyPatch(nameof(MeditationUtility.CanMeditateNow))]
+        internal class MeditationUtility_CanMeditateNowPatch
+        {
+            // Fixes the null reference error if the pawn has no food need
+            private static bool Prefix(Pawn pawn, ref bool __result)
+            {
+                if (pawn.needs.food == null)
+                {
+                    __result = false;
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(ThinkNode_ConditionalNeedPercentageAbove))]
         [HarmonyPatch("Satisfied")]
         internal class ThinkNode_ConditionalNeedPercentageAbove_SatisfiedPatch

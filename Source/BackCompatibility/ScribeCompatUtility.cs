@@ -15,7 +15,7 @@ namespace PawnExtensions
         {
             private static void Prefix()
             {
-                ScribeCompatUtility.IsLoadedGame = false;
+                ScribeCompatUtility.OnNewGame();
             }
         }
 
@@ -37,16 +37,15 @@ namespace PawnExtensions
 
     public static class ScribeCompatUtility
     {
-        private static List<BackCompatibilityEntry> compatibilityEntries;
+        private static List<BackCompatibilityEntry> compatibilityEntries = new List<BackCompatibilityEntry>();
         private static List<BackCompatibilityDef> defDatabase = new List<BackCompatibilityDef>();
+        private static bool isLoadedGame;
         private static HashSet<string> saveModIDsHash;
-        public static bool IsLoadedGame { get; set; }
-
         public static void ExposeCompatibilityList()
         {
             if (Scribe.mode == LoadSaveMode.LoadingVars)
             {
-                IsLoadedGame = true;
+                isLoadedGame = true;
 
                 saveModIDsHash = ScribeMetaHeaderUtility.loadedModIdsList.Select(s => s.StripModID()).Where(m => ModUtil.IsActive(m)).ToHashSet();
             }
@@ -66,7 +65,7 @@ namespace PawnExtensions
                 }
             }
             else if (Scribe.mode == LoadSaveMode.LoadingVars)
-                compatibilityEntries = new List<BackCompatibilityEntry>();
+                compatibilityEntries.Clear();
         }
 
         public static List<BackCompatibilityDef> GetCompatibilityDefsToExecute()
@@ -103,6 +102,11 @@ namespace PawnExtensions
             compatibilityList.CompatsInstalled.Add(def.defName);
         }
 
+        public static void OnNewGame()
+        {
+            ScribeCompatUtility.isLoadedGame = false;
+            compatibilityEntries.Clear();
+        }
         public static void PrepareForSaving()
         {
             compatibilityEntries.RemoveAll(d => !ModUtil.IsActive(d.ModID));
@@ -128,7 +132,7 @@ namespace PawnExtensions
 
         private static bool SaveHasModID(string modID)
         {
-            return IsLoadedGame && saveModIDsHash.Contains(modID);
+            return isLoadedGame && saveModIDsHash.Contains(modID);
         }
     }
 

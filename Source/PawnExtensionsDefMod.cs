@@ -45,6 +45,20 @@ namespace PawnExtensions
             }
         }
 
+        [HarmonyPatch(typeof(PawnBreathMoteMaker))]
+        [HarmonyPatch(nameof(PawnBreathMoteMaker.BreathMoteMakerTick))]
+        internal class PawnBreathMoteMaker_BreathMoteMakerTickPatch
+        {
+            private static bool Prefix(Pawn ___pawn)
+            {
+                ExtensionsDef extension = ___pawn.GetPawnExtensions();
+                if (extension != null && extension.disableBreathMote)
+                    return false;
+
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(PawnGenerator))]
         [HarmonyPatch("GenerateSkills")]
         internal class PawnGenerator_GenerateSkillsPatch
@@ -73,6 +87,7 @@ namespace PawnExtensions
 
     public class ExtensionsDef : DefModExtension
     {
+        public bool disableBreathMote;
         public HediffImmunity diseaseImmunity;
         public bool feelsNoPain;
         public bool hasPassions = true;

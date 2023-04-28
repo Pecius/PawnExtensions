@@ -94,6 +94,21 @@ namespace PawnExtensions
                 }
             }
         }
+
+        [HarmonyPatch(typeof(Need))]
+        [HarmonyPatch("DrawOnGUI")]
+        internal class Need_DrawOnGUIPatch
+        {
+            private static bool Prefix(Need __instance, Pawn ___pawn)
+            {
+                var extension = ___pawn.GetPawnExtensions();
+
+                if (extension?.hideNeeds != null && extension.hideNeeds.Contains(__instance.GetType().Name))
+                    return false;
+
+                return true;
+            }
+        }
     }
 
     public static class PawnExtensionsDefModUtil
@@ -112,6 +127,8 @@ namespace PawnExtensions
         public bool hasPassions = true;
         public List<HediffOnDamageRule> hediffOnDamage;
         public bool prohibitRomance;
+        public List<string> hideNeeds;
+
         //public RenamerDefs renamer;
         public JobSuppressor suppressJobs;
 

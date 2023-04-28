@@ -9,8 +9,6 @@ namespace PawnExtensions
         {
             Harmony harmonyInstance = new Harmony("Pecius.PawnExtensions");
             harmonyInstance.PatchAll();
-
-            DefBackCompatibilityConverter.InstallConverter();
         }
     }
 }

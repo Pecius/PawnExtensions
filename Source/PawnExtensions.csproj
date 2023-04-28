@@ -54,10 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackCompatibility\ScribeCompatUtility.cs" />
     <Compile Include="JobSuppressor.cs" />
-    <Compile Include="BackCompatibility\BackCompatibilityDef.cs" />
-    <Compile Include="BackCompatibility\DefBackCompatibilityConverter.cs" />
     <Compile Include="HediffImmunity.cs" />
     <Compile Include="PawnExtensionsDefMod.cs" />
     <Compile Include="HediffOnDamage.cs" />

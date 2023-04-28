@@ -45,6 +45,25 @@ namespace PawnExtensions
             }
         }
 
+        [HarmonyPatch(typeof(Pawn_RelationsTracker))]
+        [HarmonyPatch(nameof(Pawn_RelationsTracker.SecondaryLovinChanceFactor))]
+        internal class IPawn_RelationsTracker_SecondaryLovinChanceFactorPatch
+        {
+            private static bool Prefix(Pawn otherPawn, Pawn ___pawn, ref float __result)
+            {
+                var pawnCant = ___pawn.GetPawnExtensions()?.prohibitRomance;
+                var otherCant = otherPawn.GetPawnExtensions()?.prohibitRomance;
+
+                if ((pawnCant != null && pawnCant == true) || (otherCant != null && otherCant == true))
+                {
+                    __result = 0;
+                    return false;
+                }
+
+                return true;
+            }
+        }
+
         [HarmonyPatch(typeof(PawnBreathMoteMaker))]
         [HarmonyPatch(nameof(PawnBreathMoteMaker.BreathMoteMakerTick))]
         internal class PawnBreathMoteMaker_BreathMoteMakerTickPatch
@@ -92,6 +111,7 @@ namespace PawnExtensions
         public bool feelsNoPain;
         public bool hasPassions = true;
         public List<HediffOnDamageRule> hediffOnDamage;
+        public bool prohibitRomance;
         //public RenamerDefs renamer;
         public JobSuppressor suppressJobs;
 

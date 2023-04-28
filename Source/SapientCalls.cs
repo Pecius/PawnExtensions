@@ -103,8 +103,8 @@ namespace PawnExtensions
                 foreach (var linked in Props.linked)
                 {
                     if (linked.backstory != null &&
-                        linked.backstory != Pawn.story.adulthood.identifier &&
-                        linked.backstory != Pawn.story.childhood.identifier)
+                        (Pawn.story.Adulthood != null && linked.backstory != Pawn.story.Adulthood) &&
+                        (Pawn.story.Childhood != null && linked.backstory != Pawn.story.Childhood))
                         continue;
 
                     if (linked.lifestage != null && linked.lifestage != Pawn.ageTracker.CurLifeStage)
@@ -202,7 +202,7 @@ namespace PawnExtensions
 
         public class CallLinked
         {
-            public string backstory;
+            public BackstoryDef backstory;
             public CallSet calls;
             public LifeStageDef lifestage;
 
@@ -213,9 +213,6 @@ namespace PawnExtensions
 
                 if (backstory == null && lifestage == null)
                     yield return "backstory and lifestage are both null";
-
-                if (backstory != null && !BackstoryDatabase.allBackstories.ContainsKey(backstory))
-                    yield return $"backstory '{backstory}' not found in the database";
             }
         }
 

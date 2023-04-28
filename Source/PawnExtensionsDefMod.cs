@@ -65,7 +65,7 @@ namespace PawnExtensions
         }
 
         [HarmonyPatch(typeof(PawnBreathMoteMaker))]
-        [HarmonyPatch(nameof(PawnBreathMoteMaker.BreathMoteMakerTick))]
+        [HarmonyPatch(nameof(PawnBreathMoteMaker.ProcessPostTickVisuals))]
         internal class PawnBreathMoteMaker_BreathMoteMakerTickPatch
         {
             private static bool Prefix(Pawn ___pawn)

@@ -62,6 +62,7 @@
     <Compile Include="HediffImmunity.cs" />
     <Compile Include="PawnExtensionsDefMod.cs" />
     <Compile Include="HediffOnDamage.cs" />
+    <Compile Include="PawnSpawner_ThingComp.cs" />
     <Compile Include="StatPart_PartState.cs" />
     <Compile Include="CompPawnLink.cs" />
     <Compile Include="HediffApparel.cs" />

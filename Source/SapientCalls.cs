@@ -65,7 +65,7 @@ namespace PawnExtensions
                 return;
             }
 
-            onWoundedTrigger.Update();
+            onWoundedTrigger?.Update();
             if (!Pawn.Downed && Pawn.Awake())
                 DoCall();
         }

@@ -140,8 +140,11 @@ namespace PawnExtensions
                     yield return error;
             }
 
-            foreach (string error in diseaseImmunity.ConfigErrors())
-                yield return error;
+            if (diseaseImmunity != null)
+            {
+                foreach (string error in diseaseImmunity.ConfigErrors())
+                    yield return error;
+            }
         }
 
         private IEnumerable<string> CheckErrorsInList(IEnumerable<Editable> items, string name)
